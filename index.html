@@ -2,15 +2,19 @@
     <head>
         <meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
         <title>kol-hastikerim</title>
-        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css"> <!-- Updated the link to styles.css -->
     </head>
     <body>
-        <form class="stacked" onsubmit="return false;">
-            <input placeholder="name" id="name" class="name">
-            <textarea placeholder="his story" id="story" class="story"></textarea>
-        </form>
-        <button id="submit">click me!</button>
-        <button id="search">search name</button>
+        <!-- Floating "+" button that toggles the modal -->
+        <button id="open-modal-btn" class="floating-btn">+</button>
+
+        <!-- Modal container where the form will be injected dynamically -->
+        <div id="modal" class="modal"></div>
+
+        <!-- Container for displaying soldiers -->
+        <div id="soldiers-container"></div>
+
         <script src="script.js"></script>
     </body>
 </html>

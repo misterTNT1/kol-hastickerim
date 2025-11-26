@@ -1,18 +1,28 @@
 <html>
     <head>
-        <meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>kol-hastikerim</title>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css"> <!-- Updated the link to styles.css -->
+        <link rel="stylesheet" href="style.css"> 
     </head>
     <body>
-        <!-- Floating "+" button that toggles the modal -->
         <button id="open-modal-btn" class="floating-btn">+</button>
 
-        <!-- Modal container where the form will be injected dynamically -->
-        <div id="modal" class="modal"></div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span id="close-btn-static" class="close-btn">&times;</span>
+                <h2>Enter Soldier's Details</h2>
+                
+                <form id="soldier-form" class="stacked">
+                    <input type="text" placeholder="Name" id="name" class="name">
+                    <textarea placeholder="Story" id="story" class="story"></textarea>
+                    <input type="file" id="photo" class="photo" accept="image/*">
+                    <button id="submit-btn-static" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
 
-        <!-- Container for displaying soldiers -->
         <div id="soldiers-container"></div>
 
         <script src="script.js"></script>

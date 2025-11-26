@@ -1,88 +1,36 @@
 const openModalBtn = document.getElementById("open-modal-btn");
 const modal = document.getElementById("modal");
 const soldiersContainer = document.getElementById("soldiers-container");
+// New static element references
+const closeButton = document.getElementById("close-btn-static"); 
+const submitButton = document.getElementById("submit-btn-static"); 
+
 
 // Function to toggle the modal visibility
 function toggleModal() {
+    // Note: createForm() is removed as the form is now static in index.html
     if (modal.style.display === "block") {
-        modal.style.display = "none"; // Close the modal if it is open
+        modal.style.display = "none";
     } else {
-        modal.style.display = "block"; // Open the modal if it is closed
-        createForm();  // Create the form dynamically when the modal opens
+        modal.style.display = "block";
     }
 }
 
-// Close the modal when the "×" button is clicked
+// Close the modal and clear form
 function closeModal() {
     modal.style.display = "none";
+    document.getElementById("name").value = "";
+    document.getElementById("story").value = "";
+    document.getElementById("photo").value = "";
 }
 
-// Create the form dynamically inside the modal
-function createForm() {
-    // Clear the modal content in case the form was already added
-    modal.innerHTML = "";
-
-    // Create modal content div
-    const modalContent = document.createElement("div");
-    modalContent.classList.add("modal-content");
-
-    // Add close button
-    const closeButton = document.createElement("span");
-    closeButton.classList.add("close-btn");
-    closeButton.innerHTML = "&times;";
-    closeButton.addEventListener("click", closeModal);
-    modalContent.appendChild(closeButton);
-
-    // Add form title
-    const title = document.createElement("h2");
-    title.textContent = "Enter Soldier's Details";
-    modalContent.appendChild(title);
-
-    // Create the form
-    const form = document.createElement("form");
-    form.classList.add("stacked");
-    form.setAttribute("id", "soldier-form");
-   
-    // Create name input field
-    const nameInput = document.createElement("input");
-    nameInput.placeholder = "Name";
-    nameInput.id = "name";
-    nameInput.classList.add("name");
-
-    // Create story textarea field
-    const storyInput = document.createElement("textarea");
-    storyInput.placeholder = "Story";
-    storyInput.id = "story";
-    storyInput.classList.add("story");
-
-    // Create file input for photo
-    const photoInput = document.createElement("input");
-    photoInput.type = "file";
-    photoInput.id = "photo";
-    photoInput.classList.add("photo");
-    photoInput.accept = "image/*";  // Accept only image files
-
-    // Create submit button
-    const submitButton = document.createElement("button");
-    submitButton.textContent = "Submit";
-    submitButton.addEventListener("click", submitForm);
-
-    // Append input fields and button to form
-    form.appendChild(nameInput);
-    form.appendChild(storyInput);
-    form.appendChild(photoInput);
-    form.appendChild(submitButton);
-
-    modalContent.appendChild(form);
-    modal.appendChild(modalContent);
-}
 
 // Function to handle form submission (saving soldier details)
 function submitForm(event) {
-    event.preventDefault();  // Prevent default form submission
+    event.preventDefault(); 
 
-    const name = document.getElementById("name").value;
-    const story = document.getElementById("story").value;
+    const name = document.getElementById("name").value.trim();
+    const story = document.getElementById("story").value.trim();
     const photoInput = document.getElementById("photo");
     const photo = photoInput.files[0];
 
@@ -96,37 +44,46 @@ function submitForm(event) {
         const photoURL = reader.result;
         const stories = JSON.parse(localStorage.getItem("stories")) || {};
 
-        // Save the story and photo to localStorage
         stories[name] = { story, photoURL };
 
         localStorage.setItem("stories", JSON.stringify(stories));
         displaySoldiers();
-        closeModal(); // Close the modal after submission
+        closeModal();
     };
 
-    reader.readAsDataURL(photo);  // Convert the image to base64 string
+    reader.readAsDataURL(photo);
+}
+
+// Function to generate a random rotation/offset for the sticker effect
+function getRandomTransform() {
+    // Rotation between -3 and 3 degrees
+    const rotation = Math.random() * 6 - 3; 
+    // Small translation (offset) in X and Y
+    const translateX = Math.random() * 10 - 5; 
+    const translateY = Math.random() * 10 - 5; 
+    return `rotate(${rotation}deg) translate(${translateX}px, ${translateY}px)`;
 }
 
 // Function to display soldier details on the main page
 function displaySoldiers() {
     const stories = JSON.parse(localStorage.getItem("stories")) || {};
-    soldiersContainer.innerHTML = "";  // Clear existing soldiers
+    soldiersContainer.innerHTML = "";
 
     for (const name in stories) {
         const soldier = stories[name];
        
         const soldierDiv = document.createElement("div");
         soldierDiv.classList.add("soldier");
-
+        
+        // Apply the random "sticker" look
+        soldierDiv.style.transform = getRandomTransform(); 
+        
         const soldierImg = document.createElement("img");
         soldierImg.src = soldier.photoURL;
         soldierImg.alt = `${name}'s photo`;
 
-        const soldierName = document.createElement("p");
-        soldierName.textContent = name;
-
         soldierDiv.appendChild(soldierImg);
-        soldierDiv.appendChild(soldierName);
+        // soldier name is intentionally NOT appended
 
         soldierDiv.addEventListener("click", () => {
             window.location.href = `story.html?id=${encodeURIComponent(name)}`;
@@ -136,8 +93,11 @@ function displaySoldiers() {
     }
 }
 
-// Event listener for opening the modal when the + button is clicked
+// --- Event Listeners ---
+
 openModalBtn.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", closeModal);
+submitButton.addEventListener("click", submitForm); 
 
 // Display soldiers when the page loads
 window.addEventListener("DOMContentLoaded", displaySoldiers);

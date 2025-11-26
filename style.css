@@ -1,13 +1,13 @@
 /* General Body Styling */
 body {
-    background-color: #f0f0f0; /* Light soft gray background */
+    background-color: #f0f0f0; 
     margin: 0;
-    font-family: 'Roboto', sans-serif; /* Modern font */
-    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif; 
+    overflow-x: hidden; /* Prevent horizontal scrolling */
     color: #333;
 }
 
-/* Floating "+" button styling */
+/* Floating "+" button styling (Kept) */
 .floating-btn {
     position: fixed;
     bottom: 30px;
@@ -16,7 +16,7 @@ body {
     height: 70px;
     font-size: 40px;
     background-color: #2980b9;
-    color: white;
+    color: rgb(255, 255, 255);
     border-radius: 50%;
     border: none;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
@@ -30,7 +30,7 @@ body {
     transform: scale(1.1);
 }
 
-/* Modal Styling */
+/* --- Modal Styling (Kept) --- */
 .modal {
     display: none;
     position: fixed;
@@ -43,7 +43,6 @@ body {
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Modal Content */
 .modal-content {
     background-color: white;
     margin: 10% auto;
@@ -53,9 +52,9 @@ body {
     max-width: 90%;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     animation: slideUp 0.4s ease-in-out;
+    position: relative; /* Needed for close button */
 }
 
-/* Close Button in Modal */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -70,7 +69,7 @@ body {
     color: #e74c3c;
 }
 
-/* Form Styling */
+/* Form and Button Styling (Kept) */
 input, textarea {
     width: 100%;
     padding: 14px;
@@ -92,7 +91,6 @@ textarea {
     height: 120px;
 }
 
-/* Submit Button Styling */
 button {
     width: 100%;
     padding: 14px;
@@ -110,123 +108,105 @@ button:hover {
     background-color: #3498db;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
+/* --- Sticker Wall Layout --- */
 
-@keyframes slideUp {
-    0% { transform: translateY(30px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-/* Soldiers Container Layout */
 #soldiers-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 40px;
+    /* Using Grid for the irregular wall layout */
+    display: grid;
+    /* Create many small columns to allow for random positioning */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+    gap: 0; /* Remove fixed gaps */
+    padding: 20px;
+    min-height: 100vh;
 }
 
-/* Soldier Card Styling */
+/* Individual Soldier Sticker Card Styling */
 .soldier {
     text-align: center;
-    width: 220px; /* Wider card */
+    width: 300px; /* Sticker size */
+    /* Height is dynamic to preserve ratio */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
+    border-radius: 8px; 
     overflow: hidden;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding: 10px;
+    background-color: transparent; /* No background */
+    box-shadow: none; /* No border/shadow */
+    padding: 0;
     margin: 10px;
+    
+    /* Crucial for random positioning/rotation: */
+    position: relative;
+    justify-self: center; 
+    align-self: center;
 }
 
+/* Hover effect: lift and straighten the sticker */
 .soldier:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    z-index: 10; 
+    transform: rotate(0deg) scale(1.1) !important; /* Override JS rotation */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Add shadow only on hover for depth */
 }
 
-/* Soldier Image (Rectangular) */
+/* Soldier Image */
 .soldier img {
     width: 100%;
-    height: 150px; /* Rectangular shape */
+    height: auto; /* IMPORTANT: Preserves original aspect ratio */
     object-fit: cover;
-    border-radius: 8px; /* Slight rounding for modern look */
+    border-radius: 8px; 
     transition: transform 0.3s ease;
 }
 
-.soldier img:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
-}
-
-/* Soldier Name Styling */
+/* Soldier Name Styling (Hidden) */
 .soldier p {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 12px;
-    text-transform: capitalize;
-    font-family: 'Roboto', sans-serif;
+    display: none; /* HIDE THE NAME TEXT */
 }
 
-/* Form Fields */
-input, textarea {
-    width: 100%;
-    padding: 14px;
-    margin: 12px 0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-}
+/* --- Story Page Styling (Matching Reference Image) --- */
 
-input:focus, textarea:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-textarea {
-    resize: vertical;
-    height: 120px;
-}
-
-
-
-
-
-/* Soldier Story Page Container */
 .soldier-details-container {
     max-width: 800px;
     margin: 40px auto;
-    text-align: center;
-    padding: 20px;
+    padding: 40px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: right; /* Align content right for Hebrew */
+    direction: rtl; /* Support for Hebrew content */
+}
+
+/* New: Wrapper for image and text details (like the image provided) */
+.story-header {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    align-items: flex-start;
+}
+
+.story-text-area {
+    flex-grow: 1;
 }
 
 .soldier-details-container img {
-    width: 100%;
-    height: 300px;
+    width: 200px; 
+    height: 200px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .soldier-details-container h1 {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
-    margin-top: 20px;
+    margin: 0 0 10px 0;
 }
 
-.soldier-details-container p {
+/* Multi-line Story text */
+.soldier-details-container p.story-content {
     font-size: 18px;
     margin-top: 15px;
-    line-height: 1.6;
+    line-height: 1.8; /* Increased line height for readability */
     color: #333;
+    white-space: pre-wrap; /* IMPORTANT: Preserves line breaks */
 }
 
 /* Back Button */
@@ -243,8 +223,4 @@ textarea {
     cursor: pointer;
     transition: background-color 0.3s ease;
     text-decoration: none;
-}
-
-.back-btn:hover {
-    background-color: #2980b9;
 }

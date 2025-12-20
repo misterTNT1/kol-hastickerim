@@ -95,10 +95,8 @@ function submitForm(event) {
     reader.onloadend = () => {
         const photoURL = reader.result;
         const stories = JSON.parse(localStorage.getItem("stories")) || {};
-
         // Save the story and photo to localStorage
         stories[name] = { story, photoURL };
-
         localStorage.setItem("stories", JSON.stringify(stories));
         displaySoldiers();
         closeModal(); // Close the modal after submission
@@ -106,7 +104,6 @@ function submitForm(event) {
 
     reader.readAsDataURL(photo);  // Convert the image to base64 string
 }
-
 // Function to display soldier details on the main page
 function displaySoldiers() {
     const stories = JSON.parse(localStorage.getItem("stories")) || {};

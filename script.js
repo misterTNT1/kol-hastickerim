@@ -66,6 +66,7 @@ function createForm() {
     const submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
     submitButton.addEventListener("click", submitForm);
+    form.addEventListener("submit", submitForm);
 
     // Append input fields and button to form
     form.appendChild(nameInput);
@@ -96,7 +97,8 @@ function submitForm(event) {
         const photoURL = reader.result;
         const stories = JSON.parse(localStorage.getItem("stories")) || {};
         // Save the story and photo to localStorage
-        stories[name] = { story, photoURL };
+        const id = Date.now();
+        stories[id] = {name, story, photoURL };
         localStorage.setItem("stories", JSON.stringify(stories));
         displaySoldiers();
         closeModal(); // Close the modal after submission
@@ -109,24 +111,24 @@ function displaySoldiers() {
     const stories = JSON.parse(localStorage.getItem("stories")) || {};
     soldiersContainer.innerHTML = "";  // Clear existing soldiers
 
-    for (const name in stories) {
-        const soldier = stories[name];
+    for (const id in stories) {
+        const soldier = stories[id];
        
         const soldierDiv = document.createElement("div");
         soldierDiv.classList.add("soldier");
 
         const soldierImg = document.createElement("img");
         soldierImg.src = soldier.photoURL;
-        soldierImg.alt = `${name}'s photo`;
+        soldierImg.alt = `${soldier.name}'s photo`;
 
         const soldierName = document.createElement("p");
-        soldierName.textContent = name;
+        soldierName.textContent = soldier.name;
 
         soldierDiv.appendChild(soldierImg);
         soldierDiv.appendChild(soldierName);
 
         soldierDiv.addEventListener("click", () => {
-            window.location.href = `story.html?id=${encodeURIComponent(name)}`;
+            window.location.href = `story.html?id=${encodeURIComponent(id)}`;
         });
 
         soldiersContainer.appendChild(soldierDiv);

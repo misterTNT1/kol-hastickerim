@@ -17,11 +17,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // Soldier Image
         const soldierImg = document.createElement("img");
         soldierImg.src = soldier.photoURL;
-        soldierImg.alt = `${id}'s photo`;
+        soldierImg.alt = `${soldier.name}'s photo`;
 
         // Soldier Name
         const soldierName = document.createElement("h1");
-        soldierName.textContent = id;
+        soldierName.textContent = soldier.name;
         
         // Soldier Story (Uses CSS class 'story-content' to preserve line breaks)
         const soldierStory = document.createElement("p");

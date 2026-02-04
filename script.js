@@ -35,7 +35,7 @@ function createForm() {
 
     // Add form title
     const title = document.createElement("h2");
-    title.textContent = "Enter Soldier's Details";
+    title.textContent = "הכנס את הפרטים";
     modalContent.appendChild(title);
 
     // Create the form
@@ -45,13 +45,13 @@ function createForm() {
    
     // Create name input field
     const nameInput = document.createElement("input");
-    nameInput.placeholder = "Name";
+    nameInput.placeholder = "שם";
     nameInput.id = "name";
     nameInput.classList.add("name");
 
     // Create story textarea field
     const storyInput = document.createElement("textarea");
-    storyInput.placeholder = "Story";
+    storyInput.placeholder = "הסיפור";
     storyInput.id = "story";
     storyInput.classList.add("story");
 
@@ -62,9 +62,9 @@ function createForm() {
     photoInput.accept = "image/*";  // Accept only image files
 
     const profile = document.createElement("p");
-    profile.innerHTML = "profile picture (optional)";
+    profile.innerHTML = "תמונת פרופיל (אופציונלי)";
     const sticker = document.createElement("p");
-    sticker.innerHTML = "sticker";
+    sticker.innerHTML = "תמונה של הסטיקר";
 
     const profilePicture = document.createElement("input");
     profilePicture.type = "file";
@@ -73,7 +73,7 @@ function createForm() {
 
     // Create submit button
     const submitButton = document.createElement("button");
-    submitButton.textContent = "Submit";
+    submitButton.textContent = "שליחה";
     submitButton.addEventListener("click", submitForm);
     form.addEventListener("submit", submitForm);
 
@@ -169,7 +169,7 @@ function displaySoldiers() {
 
         const soldierImg = document.createElement("img");
         soldierImg.src = soldier.stickerURL;
-        soldierImg.alt = `${soldier.name}'s photo`;
+        soldierImg.alt = `תמונה של ${soldier.name}`;
 
         soldierDiv.appendChild(soldierImg);
 

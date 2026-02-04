@@ -46,11 +46,13 @@ body {
 /* Modal Content */
 .modal-content {
     background-color: white;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 30px;
     border-radius: 15px;
     width: 400px;
     max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     animation: slideUp 0.4s ease-in-out;
 }
@@ -133,13 +135,10 @@ button:hover {
 /* Soldier Card Styling */
 .soldier {
     text-align: center;
-    width: 220px; /* Wider card */
+    width: 30%; /* Wider card */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
     overflow: hidden;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     padding: 10px;
 }
 
@@ -242,4 +241,14 @@ textarea {
 
 .back-btn:hover {
     background-color: #2980b9;
+}
+
+/* File instruction paragraph */
+.file-instruction {
+    font-size: 16px;
+    color: #2980b9;
+    margin: 15px 0 15px 0;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 500;
 }

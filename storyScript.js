@@ -16,7 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Soldier Image
         const soldierImg = document.createElement("img");
-        soldierImg.src = soldier.photoURL;
+        soldierImg.src = soldier.profilePictureURL;
         soldierImg.alt = `${soldier.name}'s photo`;
 
         // Soldier Name

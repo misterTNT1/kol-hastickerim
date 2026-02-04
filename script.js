@@ -59,8 +59,17 @@ function createForm() {
     const photoInput = document.createElement("input");
     photoInput.type = "file";
     photoInput.id = "photo";
-    photoInput.classList.add("photo");
     photoInput.accept = "image/*";  // Accept only image files
+
+    const profile = document.createElement("p");
+    profile.innerHTML = "profile picture (optional)";
+    const sticker = document.createElement("p");
+    sticker.innerHTML = "sticker";
+
+    const profilePicture = document.createElement("input");
+    profilePicture.type = "file";
+    profilePicture.id = "profile-picture";
+    profilePicture.accept = "image/*";
 
     // Create submit button
     const submitButton = document.createElement("button");
@@ -71,7 +80,10 @@ function createForm() {
     // Append input fields and button to form
     form.appendChild(nameInput);
     form.appendChild(storyInput);
+    form.appendChild(sticker);
     form.appendChild(photoInput);
+    form.appendChild(profile);
+    form.appendChild(profilePicture);
     form.appendChild(submitButton);
 
     modalContent.appendChild(form);
@@ -84,27 +96,65 @@ function submitForm(event) {
 
     const name = document.getElementById("name").value;
     const story = document.getElementById("story").value;
-    const photoInput = document.getElementById("photo");
-    const photo = photoInput.files[0];
+    const stickerInput = document.getElementById("photo");
+    const sticker = stickerInput.files[0];
+    const profilePictureInput = document.getElementById("profile-picture");
+    const profile = profilePictureInput.files[0];
 
-    if (!name || !story || !photo) {
-        alert("Please fill all fields, including a photo.");
+
+    if (!name || !story || !sticker) {
+        alert("Please fill all fields, including at least a sticker photo.");
         return;
     }
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-        const photoURL = reader.result;
+    // If no profile picture is provided, use the sticker for both
+    if (!profile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const stickerURL = reader.result;
+            const stories = JSON.parse(localStorage.getItem("stories")) || {};
+            const id = Date.now();
+            stories[id] = {
+                name, 
+                story, 
+                stickerURL,         // The sticker image
+                profilePictureURL: stickerURL   // Use sticker as profile picture too
+            };
+            localStorage.setItem("stories", JSON.stringify(stories));
+            displaySoldiers();
+            closeModal();
+        };
+        reader.readAsDataURL(sticker);
+        return;
+    }
+
+    // Use Promise.all to handle both file reads
+    const stickerPromise = new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(sticker);
+    });
+
+    const profilePromise = new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(profile);
+    });
+
+    Promise.all([stickerPromise, profilePromise]).then(([stickerURL, profilePictureURL]) => {
         const stories = JSON.parse(localStorage.getItem("stories")) || {};
         // Save the story and photo to localStorage
         const id = Date.now();
-        stories[id] = {name, story, photoURL };
+        stories[id] = {
+            name, 
+            story, 
+            stickerURL,         // The sticker image
+            profilePictureURL   // The profile picture image
+        };
         localStorage.setItem("stories", JSON.stringify(stories));
         displaySoldiers();
         closeModal(); // Close the modal after submission
-    };
-
-    reader.readAsDataURL(photo);  // Convert the image to base64 string
+    });
 }
 // Function to display soldier details on the main page
 function displaySoldiers() {
@@ -118,14 +168,10 @@ function displaySoldiers() {
         soldierDiv.classList.add("soldier");
 
         const soldierImg = document.createElement("img");
-        soldierImg.src = soldier.photoURL;
+        soldierImg.src = soldier.stickerURL;
         soldierImg.alt = `${soldier.name}'s photo`;
 
-        const soldierName = document.createElement("p");
-        soldierName.textContent = soldier.name;
-
         soldierDiv.appendChild(soldierImg);
-        soldierDiv.appendChild(soldierName);
 
         soldierDiv.addEventListener("click", () => {
             window.location.href = `story.html?id=${encodeURIComponent(id)}`;

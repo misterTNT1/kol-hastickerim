@@ -210,10 +210,12 @@ textarea {
 /* Profile Picture - Inside Container, Right Aligned */
 .profile-picture {
     display: block;
-    width: 32%;
-    height: 18%;
+    max-width: 32%;
+    max-height: 18vh;
+    width: auto;
+    height: auto;
     margin: 0 0 30px auto;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

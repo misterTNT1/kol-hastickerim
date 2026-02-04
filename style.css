@@ -135,6 +135,7 @@ button:hover {
 /* Soldier Card Styling */
 .soldier {
     text-align: center;
+    height: 100%;
     width: 30%; /* Wider card */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -150,8 +151,9 @@ button:hover {
 /* Soldier Image (Rectangular) */
 .soldier img {
     width: 100%;
-    height: 150px; /* Rectangular shape */
-    object-fit: cover;
+    height: auto;
+    max-height: 150px;
+    object-fit: contain;
     border-radius: 8px; /* Slight rounding for modern look */
     transition: transform 0.3s ease;
 }
@@ -200,6 +202,10 @@ textarea {
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
+    height: auto;
 }
 
 /* Story Header Layout */

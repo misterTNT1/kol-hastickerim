@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Soldier Image
         const soldierImg = document.createElement("img");
+        soldierImg.classList.add("profile-picture");
         soldierImg.src = soldier.profilePictureURL;
         soldierImg.alt = `${soldier.name}'s photo`;
 
@@ -26,17 +27,14 @@ window.addEventListener("DOMContentLoaded", () => {
         // Soldier Story (Uses CSS class 'story-content' to preserve line breaks)
         const soldierStory = document.createElement("p");
         soldierStory.classList.add("story-content");
-        soldierStory.textContent = soldier.story; 
+        soldierStory.innerHTML = soldier.story.replace(/\n/g, '<br>'); 
 
         // Append Name to Text Area
         storyTextArea.appendChild(soldierName);
 
-        // Append Image and Text Area to Header
-        storyHeader.appendChild(soldierImg);
-        storyHeader.appendChild(storyTextArea);
-        
-        // Append Header and Story to the main container
-        container.appendChild(storyHeader);
+        // Append profile picture first (at top), then text area below
+        container.appendChild(soldierImg);
+        container.appendChild(storyTextArea);
         container.appendChild(soldierStory);
         
     } else {
